@@ -1,0 +1,26 @@
+# docker-compose
+# copyright   :  honglimin
+# create time :  2019-03-26
+
+version: "3"
+services:
+  {service_name}:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: {container_name}
+    ports:
+      - "{port0}:20013"
+      - "{port1}:{port1}"
+      - "{port2}:40000"
+      - "{port3}:50000"
+    volumes:
+      - '/home/fx/Engine/kbe/:/kbengine/kbe/'
+      - '../kbengine/assets/:/kbengine/assets/'
+      - '/home/fx/logs/{container_name}:/kbengine/assets/logs/'
+    stdin_open: true
+    tty: true
+    # the container will exit after execute command progress over. so here not execute command.
+    ##command: ./start_server.sh
+    #command: bash -c "useradd -u {uid} kbe -p {pwd} && su kbe && sh ./start_server.sh && tail -f /dev/null"
+    command: bash -c "sh ./start_server.sh && tail -f /dev/null"

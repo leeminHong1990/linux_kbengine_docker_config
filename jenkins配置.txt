@@ -1,0 +1,48 @@
+
+所有配置 ${JOB_NAME} 和 id 必须不能相同
+
+配置svn拉取后启动docker 修改 id
+
+# execute configurate shell
+cd ${WORKSPACE}
+pwd
+
+rm -rf kbengine_svn_config
+cp -avx /home/fx/kbengine_svn_config .
+
+cd ./kbengine_svn_config
+python ./configurate.py --name ${JOB_NAME} --id 1
+
+rm -rf ../kbengine/assets/logs
+mkdir -p -m 777 /home/fx/logs/${JOB_NAME}
+
+# execute docker shell
+
+docker-compose down | echo error
+docker-compose up --build -d
+#docker exec -i ${JOB_NAME} /bin/bash './start_server.sh'
+#docker-compose exec ${JOB_NAME} ./start_server.sh | echo error
+
+
+配置LAN拉取后启动docker  修改url 和id
+# execute configurate shell
+cd ${WORKSPACE}
+pwd
+
+rm -rf kbengine_svn_config
+cp -avx /home/fx/kbengine_svn_config .
+
+cd ./kbengine_svn_config
+python ./download.py --url 192.168.1.11:8088
+
+python ./configurate.py --name ${JOB_NAME} --id 101
+
+rm -rf ../kbengine/assets/logs
+mkdir -p -m 777 /home/fx/logs/${JOB_NAME}
+
+# execute docker shell
+
+docker-compose down | echo error
+docker-compose up --build -d
+#docker exec -i ${JOB_NAME} /bin/bash './start_server.sh'
+#docker-compose exec ${JOB_NAME} ./start_server.sh | echo error
